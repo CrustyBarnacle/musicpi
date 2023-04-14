@@ -32,15 +32,22 @@ def get_current_status():
             }
         return {}
 
-    except Exception as error:
+    except requests.exceptions.RequestException as error:
         print(f"Unable to obtain current track info or status ({error})")
 
 def start_playback():
-    requests.get(f"{api_endpoint}/commands/?cmd=play", timeout=3.0)
+    try:
+        requests.get(f"{api_endpoint}/commands/?cmd=play", timeout=3.0)
+
+    except requests.exceptions.RequestException as error:
+        print(f"Unable to reach host or obtain status ({error})")
 
 def stop_playback():
-    requests.get(f"{api_endpoint}/commands/?cmd=stop", timeout=3.0)
+    try:
+        requests.get(f"{api_endpoint}/commands/?cmd=stop", timeout=3.0)
 
+    except requests.exceptions.RequestException as error:
+        print(f"Unable to reach host or obtain status ({error})")
 
 while True:
     command = get_user_input()
@@ -60,4 +67,3 @@ while True:
 
 
     time.sleep(5)
-
