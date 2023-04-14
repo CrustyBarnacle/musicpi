@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
-import requests
 import time
+import requests
 
-volumio_host = "<volumio_hostname>"
-api_endpoint = f"http://{volumio_host}/api/v1"
+VOLUMIO_HOST = "<volumio_hostname>"
+api_endpoint = f"http://{VOLUMIO_HOST}/api/v1"
 
-previous_track = ""
-player_status = ""
+PREVIOUS_TRACK = ""
+PLAYER_STATUS = ""
 
 
 def get_user_input():
@@ -21,42 +21,43 @@ def get_user_input():
 
 def get_current_status():
     try:
-        response = requests.get(f"{api_endpoint}/getState")
+        response = requests.get(f"{api_endpoint}/getState", timeout=3.0)
         response_json = response.json()
-        
+
         if response_json["status"] == "play":
             return {
                 "title": response_json["title"],
                 "artist": response_json["artist"],
                 "status": response_json["status"]
             }
-        else:
-            return {}
+        return {}
+
     except Exception as error:
         print(f"Unable to obtain current track info or status ({error})")
 
 def start_playback():
-    requests.get(f"{api_endpoint}/commands/?cmd=play")
+    requests.get(f"{api_endpoint}/commands/?cmd=play", timeout=3.0)
 
 def stop_playback():
-    requests.get(f"{api_endpoint}/commands/?cmd=stop")
+    requests.get(f"{api_endpoint}/commands/?cmd=stop", timeout=3.0)
 
 
 while True:
-    user_input = get_user_input()
-    if user_input == "quit":
+    command = get_user_input()
+    if command == "quit":
         break
-    else:
-        current_track = get_current_status()
-        if current_track:
-            current_title = current_track["title"]
-            if current_title != previous_track:
-                print(f"Currently playing: {current_title}\n{current_track['artist']}")
-                previous_track = current_title
-            current_player_status = current_track["status"]
-            if current_player_status != player_status:
-                print(f"Player status: {current_player_status}")
-                player_status = current_player_status
+
+    current_track = get_current_status()
+    if current_track:
+        current_title = current_track["title"]
+        if current_title != PREVIOUS_TRACK:
+            print(f"Currently playing: {current_title}\n{current_track['artist']}")
+            PREVIOUS_TRACK = current_title
+        current_player_status = current_track["status"]
+        if current_player_status != PLAYER_STATUS:
+            print(f"Player status: {current_player_status}")
+            PLAYER_STATUS = current_player_status
 
 
     time.sleep(5)
+
