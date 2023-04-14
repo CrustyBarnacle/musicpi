@@ -1,7 +1,9 @@
+#!/usr/bin/env python3
+
 import requests
 import time
 
-volumio_host = "musicpi"
+volumio_host = "<volumio_hostname>"
 api_endpoint = f"http://{volumio_host}/api/v1"
 
 previous_track = ""
