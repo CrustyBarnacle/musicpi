@@ -1,7 +1,6 @@
-!/usr/bin/env python3
-
+# Imports
 import time
-from sys import exit
+import sys
 import requests
 
 VOLUMIO_HOST = "<hostname>"
@@ -61,6 +60,9 @@ def get_current_status():
         print(f"Unable to obtain current track info or status ({error})")
 
 def start_playback():
+    """
+    Start audio playback.
+    """
     try:
         requests.get(f"{api_endpoint}/commands/?cmd=play", timeout=3.0)
 
@@ -68,6 +70,9 @@ def start_playback():
         print(f"Unable to reach host or obtain status ({error})")
 
 def stop_playback():
+    """
+    Stop audio playback.
+    """
     try:
         requests.get(f"{api_endpoint}/commands/?cmd=stop", timeout=3.0)
 
@@ -75,11 +80,14 @@ def stop_playback():
         print(f"Unable to reach host or obtain status ({error})")
 
 def exit_application():
-    exit()
+    """
+    Quit the application. Exit. Get outta here.
+    """
+    sys.exit()
 
 
 while True:
-    command = get_user_input()
+    get_user_input()
 
     current_track = get_current_status()
     if current_track:
