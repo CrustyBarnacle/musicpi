@@ -1,9 +1,10 @@
-#!/usr/bin/env python3
+!/usr/bin/env python3
 
 import time
+from sys import exit
 import requests
 
-VOLUMIO_HOST = "<volumio_hostname>"
+VOLUMIO_HOST = "<hostname>"
 api_endpoint = f"http://{VOLUMIO_HOST}/api/v1"
 
 PREVIOUS_TRACK = ""
@@ -11,15 +12,39 @@ PLAYER_STATUS = ""
 
 
 def get_user_input():
+    """
+    Stuff this function does...
+
+    Actually, what does it do?
+
+    :param arg1: Description of argument 1.
+    :type arg1: Type of argument 1.
+    :param arg2: Description of argument 2.
+    :type arg2: Type of argument 2.
+    :return: Description of the return value.
+    :rtype: Type of the return value.
+    """
     user_input = input("Enter command (start, stop, quit): ")
     if user_input == "start":
         start_playback()
     elif user_input == "stop":
         stop_playback()
     elif user_input == "quit":
-        return user_input
+        exit_application()
 
 def get_current_status():
+    """
+    Stuff this function does...
+
+    Actually, what does it do?
+
+    :param arg1: Description of argument 1.
+    :type arg1: Type of argument 1.
+    :param arg2: Description of argument 2.
+    :type arg2: Type of argument 2.
+    :return: Description of the return value.
+    :rtype: Type of the return value.
+    """
     try:
         response = requests.get(f"{api_endpoint}/getState", timeout=3.0)
         response_json = response.json()
@@ -49,10 +74,12 @@ def stop_playback():
     except requests.exceptions.RequestException as error:
         print(f"Unable to reach host or obtain status ({error})")
 
+def exit_application():
+    exit()
+
+
 while True:
     command = get_user_input()
-    if command == "quit":
-        break
 
     current_track = get_current_status()
     if current_track:
