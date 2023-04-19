@@ -1,3 +1,25 @@
+#!/usr/bin/env python3
+"""
+Volumio music server status, start, and stop playback.
+Originally (still often used) a short zsh script with the
+same functionality.
+
+To start the script (it will keep running until the user `(Q)uits`).
+Example:
+    $ python3 main.py
+
+On GNU/Linux make the script executable, and run it directly.
+In the repository directory:
+    $ chmod u+x ./main.py
+
+Executable example:
+    $ ./main.py
+"""
+
+__author__ = "CrustyBarnacle <CrustyBarnacle@users.noreply.github.com>"
+__version__ = "0.1.0"
+__license__ = "GPL-3.0"
+
 import time
 import sys
 import requests
