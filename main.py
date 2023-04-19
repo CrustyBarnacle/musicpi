@@ -1,4 +1,3 @@
-# Imports
 import time
 import sys
 import requests
@@ -12,24 +11,19 @@ PLAYER_STATUS = ""
 
 def get_user_input():
     """
-    Stuff this function does...
-
-    Actually, what does it do?
-
-    :param arg1: Description of argument 1.
-    :type arg1: Type of argument 1.
-    :param arg2: Description of argument 2.
-    :type arg2: Type of argument 2.
-    :return: Description of the return value.
-    :rtype: Type of the return value.
+    Prompt user 
     """
-    user_input = input("Enter command (start, stop, quit): ")
-    if user_input == "start":
-        start_playback()
-    elif user_input == "stop":
-        stop_playback()
-    elif user_input == "quit":
-        exit_application()
+    user_input = input("(p)lay, (s)top, (q)uit): ")
+    match user_input:
+        case "play" | "p" | "start":
+            start_playback()
+        case "stop" | "s":
+            stop_playback()
+        case "quit" | "Quit" | "q" | "Q":
+            exit_application()
+        case _:
+            return
+
 
 def get_current_status():
     """
@@ -58,6 +52,7 @@ def get_current_status():
 
     except requests.exceptions.RequestException as error:
         print(f"Unable to obtain current track info or status ({error})")
+        return {}
 
 def start_playback():
     """
@@ -83,6 +78,10 @@ def exit_application():
     """
     Quit the application. Exit. Get outta here.
     """
+    user_input = input("Stop playing music? (Y)/(N) ")
+    match user_input:
+        case "Yes" | "yes" | "Y" | "y":
+            stop_playback()
     sys.exit()
 
 
